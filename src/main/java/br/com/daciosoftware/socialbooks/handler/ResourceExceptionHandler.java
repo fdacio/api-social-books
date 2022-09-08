@@ -8,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+
 import br.com.daciosoftware.socialbooks.domain.DetalheErro;
 import br.com.daciosoftware.socialbooks.services.exceptions.AutorExistenteException;
 import br.com.daciosoftware.socialbooks.services.exceptions.AutorNaoEncontraroException;
@@ -59,7 +61,7 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
 
 	}
-
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<DetalheErro> handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
 			HttpServletRequest request) {
@@ -67,12 +69,27 @@ public class ResourceExceptionHandler {
 		DetalheErro erro = DetalheErro
 				.builder()
 				.addStatus(400l)
-				.addTitulo(e.getMessage())
+				.addTitulo("Argumentos Inválidos")
 				.addTimestamp(System.currentTimeMillis())
 				.addMensagemDesenvolvedor("http://api.error.daciosoftware.com.br/400.html").build();
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
 
 	}
+	@ExceptionHandler(InvalidFormatException.class)
+	public ResponseEntity<DetalheErro> handleInvalidFormatException(InvalidFormatException e,
+			HttpServletRequest request) {
+		
+		DetalheErro erro = DetalheErro
+				.builder()
+				.addStatus(400l)
+				.addTitulo("Argmentos com formato inválido")
+				.addTimestamp(System.currentTimeMillis())
+				.addMensagemDesenvolvedor("http://api.error.daciosoftware.com.br/400.html").build();
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+
+	}
+	
 
 }

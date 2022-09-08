@@ -28,7 +28,7 @@ public class Autor {
 	
 	@JsonInclude(Include.NON_NULL)
 	@NotEmpty(message = "Campo nome é obrigatório")
-	@Size(max = 60, message = "Campo nome máximo de 60 caractéres")
+	@Size(max = 60, message = "Campo nome máximo de 60 caracteres")
 	private String nome;
 	
 	@JsonInclude(Include.NON_NULL)
@@ -39,7 +39,7 @@ public class Autor {
 	
 	@JsonInclude(Include.NON_NULL)
 	@NotEmpty(message = "Campo nacionalidade é obrigatório")
-	@Size(max = 20, message = "Campo nacionalidade máximo de 20 caractéres")
+	@Size(max = 20, message = "Campo nacionalidade máximo de 20 caracteres")
 	private String nacionalidade;
 
 	@OneToMany(mappedBy = "autor")

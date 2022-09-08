@@ -3,6 +3,7 @@ package br.com.daciosoftware.socialbooks.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,7 +34,7 @@ public class Livro {
 	
 	@JsonInclude(Include.NON_NULL)
 	@NotEmpty(message = "Campo editora é obrigatório")
-	@Size(max = 30, message = "Campo nome máxido de 30 caracteres")
+	@Size(max = 30, message = "Campo editora máxido de 30 caracteres")
 	private String editora;
 	
 	@JsonInclude(Include.NON_NULL)
@@ -42,15 +43,18 @@ public class Livro {
 	private Date publicacao;
 	
 	@JsonInclude(Include.NON_NULL)
+	@NotEmpty(message = "Campo resumo é obrigatório")
+	@Size(max = 1500, message = "Campo resumo máxido de 1500 caracteres")
 	private String resumo;
 	
 	@JsonInclude(Include.NON_EMPTY)
-	@OneToMany(mappedBy = "livro", orphanRemoval = true)
+	@OneToMany(mappedBy = "livro", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
 	private List<Comentario> comentarios;
 	
 	@JsonInclude(Include.NON_NULL)
 	@ManyToOne()
 	@JoinColumn(name = "id_autor")
+	@NotNull(message = "Campor autor é obrigatório")
 	private Autor autor;
 	
 	public Livro() {

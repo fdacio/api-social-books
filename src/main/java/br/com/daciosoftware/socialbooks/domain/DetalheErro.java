@@ -1,11 +1,17 @@
 package br.com.daciosoftware.socialbooks.domain;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class DetalheErro {
 
 	private String titulo;
 
 	private Long status;
 
+	@JsonFormat(pattern = "dd/MM/yyyy h:m:s")
 	private Long timestamp;
 
 	private String mensagemDesenvolvedor;
@@ -18,8 +24,10 @@ public class DetalheErro {
 		return status;
 	}
 
-	public Long getTimestamp() {
-		return timestamp;
+	public String getTimestamp() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");    
+		Date resultdate = new Date(timestamp);
+		return sdf.format(resultdate);
 	}
 
 	public String getMensagemDesenvolvedor() {
