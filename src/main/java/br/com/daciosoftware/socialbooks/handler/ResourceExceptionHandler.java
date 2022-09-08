@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -19,7 +20,10 @@ public class ResourceExceptionHandler {
 	public ResponseEntity<DetalheErro> handleLivroNaoEncontradoExcpetion(LivroNaoEncontradoException e,
 			HttpServletRequest request) {
 
-		DetalheErro erro = DetalheErro.builder().addStatus(404l).addTitulo(e.getMessage())
+		DetalheErro erro = DetalheErro
+				.builder()
+				.addStatus(404l)
+				.addTitulo(e.getMessage())
 				.addTimestamp(System.currentTimeMillis())
 				.addMensagemDesenvolvedor("http://api.error.daciosoftware.com.br/404.html").build();
 
@@ -31,7 +35,9 @@ public class ResourceExceptionHandler {
 	public ResponseEntity<DetalheErro> handleAutoExistenteExcpetion(AutorExistenteException e,
 			HttpServletRequest request) {
 
-		DetalheErro erro = DetalheErro.builder().addStatus(409l).addTitulo(e.getMessage())
+		DetalheErro erro = DetalheErro.builder()
+				.addStatus(409l)
+				.addTitulo(e.getMessage())
 				.addTimestamp(System.currentTimeMillis())
 				.addMensagemDesenvolvedor("http://api.error.daciosoftware.com.br/409.html").build();
 
@@ -43,11 +49,29 @@ public class ResourceExceptionHandler {
 	public ResponseEntity<DetalheErro> handleAutorNaoEncontraroException(AutorNaoEncontraroException e,
 			HttpServletRequest request) {
 
-		DetalheErro erro = DetalheErro.builder().addStatus(404l).addTitulo(e.getMessage())
+		DetalheErro erro = DetalheErro
+				.builder()
+				.addStatus(404l)
+				.addTitulo(e.getMessage())
 				.addTimestamp(System.currentTimeMillis())
 				.addMensagemDesenvolvedor("http://api.error.daciosoftware.com.br/404.html").build();
 
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
+
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<DetalheErro> handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
+			HttpServletRequest request) {
+		
+		DetalheErro erro = DetalheErro
+				.builder()
+				.addStatus(400l)
+				.addTitulo(e.getMessage())
+				.addTimestamp(System.currentTimeMillis())
+				.addMensagemDesenvolvedor("http://api.error.daciosoftware.com.br/400.html").build();
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
 
 	}
 

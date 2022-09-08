@@ -8,6 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,13 +27,19 @@ public class Autor {
 	private Long id;
 	
 	@JsonInclude(Include.NON_NULL)
+	@NotEmpty(message = "Campo nome é obrigatório")
+	@Size(max = 60, message = "Campo nome máximo de 60 caractéres")
 	private String nome;
 	
 	@JsonInclude(Include.NON_NULL)
 	@JsonFormat(pattern = "dd/MM/yyyy")
+	@NotNull(message = "Campo nascimento é obrigatório")
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date nascimento;
 	
 	@JsonInclude(Include.NON_NULL)
+	@NotEmpty(message = "Campo nacionalidade é obrigatório")
+	@Size(max = 20, message = "Campo nacionalidade máximo de 20 caractéres")
 	private String nacionalidade;
 
 	@OneToMany(mappedBy = "autor")
