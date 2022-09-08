@@ -3,7 +3,6 @@ package br.com.daciosoftware.socialbooks.domain;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -24,20 +27,25 @@ public class Livro {
 	private Long id;
 	
 	@JsonInclude(Include.NON_NULL)
-	@Column(length = 60)
+	@NotEmpty(message = "Campo nome é obrigatório")
+	@Size(max = 60, message = "Campo nome máxido de 60 caracteres")
 	private String nome;
 	
 	@JsonInclude(Include.NON_NULL)
+	@NotEmpty(message = "Campo editora é obrigatório")
+	@Size(max = 30, message = "Campo nome máxido de 30 caracteres")
 	private String editora;
 	
 	@JsonInclude(Include.NON_NULL)
+	@JsonFormat(pattern = "dd/MM/yyy")
+	@NotNull(message = "Campo publicação é obrigatório")
 	private Date publicacao;
 	
 	@JsonInclude(Include.NON_NULL)
 	private String resumo;
 	
-	@JsonInclude(Include.NON_NULL)
-	@OneToMany(mappedBy = "livro")
+	@JsonInclude(Include.NON_EMPTY)
+	@OneToMany(mappedBy = "livro", orphanRemoval = true)
 	private List<Comentario> comentarios;
 	
 	@JsonInclude(Include.NON_NULL)

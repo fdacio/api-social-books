@@ -30,7 +30,7 @@ public class LivrosResources {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> buscar(@PathVariable("id") Long id) {
+	public ResponseEntity<Livro> buscar(@PathVariable("id") Long id) {
 		Livro livro = livrosServices.buscar(id);
 		return ResponseEntity.status(HttpStatus.OK).body(livro);
 	}
