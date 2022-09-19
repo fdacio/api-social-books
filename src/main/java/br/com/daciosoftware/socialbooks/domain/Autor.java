@@ -28,7 +28,7 @@ public class Autor {
 	
 	@JsonInclude(Include.NON_NULL)
 	@NotEmpty(message = "Campo nome é obrigatório")
-	@Size(max = 60, message = "Campo nome máximo de 60 caracteres")
+	@Size(max = 20, message = "Campo nome máximo de 20 caracteres")
 	private String nome;
 	
 	@JsonInclude(Include.NON_NULL)
